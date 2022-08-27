@@ -92,9 +92,32 @@ const editUserDetails=async(req,res)=>{
           if (!user) {
               res.send("access denied");
           } else {
-              const update= req.body;
+            let profileImage=req.file;
+            let username=req.body.username;
+            let firstName=req.body.firstName;
+            let lastName=req.body.lastName;
+
+            if(username===""){
+                username=user.username
+            }
+            if(firstName===""){
+                firstName=user.firstName
+            }
+            if(lastName===""){
+                lastName=user.lastName
+            }
+            if(profileImage===""){
+                profileImage=user.profileImage
+            }
+            const update={
+                username:username,
+                firstName:firstName,
+                lastName:lastName,
+                profileImage:profileImage.path
+
+            }
   
-              User.findByIdAndUpdate({_id},{$set:update},(error,data)=>{
+              User.findByIdAndUpdate({_id},{update},(error,data)=>{
                   if(error) return res.send("error")
                   else return res.send("updated")
               })
