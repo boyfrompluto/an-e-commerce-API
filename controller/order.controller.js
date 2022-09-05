@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
+const Product= require("../models/product.model");
 const Cart = require("../models/cart.model");
 const config = require("../config/config");
 const Order = require("../models/order.model");
@@ -14,8 +15,9 @@ const orderProduct=async(req,res)=>{
     if(!user||user.verified==false) return res.send("access denied")
     const cart = await Cart.findById({_id:cartId})
     
-    console.log(cart)
+   
     if(!cart) return res.send("cant find your cart")
+    const product= cart.productID
     const inOrder= await Order.findOne({cartId:cartId})
     if(inOrder) return res.send("product has already been ordered")
     else{
@@ -33,6 +35,12 @@ const orderProduct=async(req,res)=>{
         });
         console.log("hello")
         const savedOrder= order.save();
+        const findProduct= await Product.findById({_id:product});
+        if(!findProduct) return res.status(500).json("product out of stock")
+        else{
+           await findProduct.updateOne({$push:{buyers:user._id}})
+        }
+        
         res.send(savedOrder)
     }
 };

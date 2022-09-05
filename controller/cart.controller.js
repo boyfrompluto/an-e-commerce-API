@@ -20,14 +20,12 @@ const addToCart = async (req, res) => {
         Cart.find({ userId: user._id, productID: productId }, (error, data) => {
           if (!data || data == "") {
             const quantity = req.body.quantity;
-            const price = productExist.productPrice * quantity
-            console.log(price)
 
             const cart = new Cart({
               userId: user._id,
               productID: productId,
               quantity: quantity,
-              totalPrice: price
+              
             });
             const savedCart = cart.save();
             res.send(savedCart);

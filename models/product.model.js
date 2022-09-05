@@ -31,6 +31,9 @@ const ProductSchema = new mongoose.Schema({
         type: Array,
         require: true
     },
+    buyers:{
+        type:Array
+    },
     size:{
         type: String,
        

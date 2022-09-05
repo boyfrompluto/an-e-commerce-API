@@ -11,7 +11,10 @@ const productStorage = multer.diskStorage({
   const uploads = multer({
     storage: productStorage
   }).array("images",3);
-
+const{
+  unverifiedUser,
+  product
+}= require("../utils/functions")
 const {
     viewDetails,
     createProduct,
@@ -32,5 +35,6 @@ router.get("/viewDetails/:token/:productId", viewDetails);
 router.post("/editProduct/:token/:productId", uploads, editProduct);
 router.post("/editProductPicture/:token/:productId",uploads,editProductPicture);
 router.delete("/deleteProduct/:token/:productId",deleteProduct);
+router.get('/',unverifiedUser)
 
 module.exports = router;

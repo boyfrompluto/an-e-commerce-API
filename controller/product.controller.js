@@ -220,4 +220,7 @@ const deleteProduct=async(req,res)=>{
       }
     }
 };
+
+    
+
 module.exports = {viewDetails,createProduct,editProduct,editProductPicture,viewAllProducts,deleteProduct};
